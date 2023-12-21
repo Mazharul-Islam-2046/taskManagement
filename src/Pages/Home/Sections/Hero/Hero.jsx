@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const Hero = () => {
     return (
-        <div className="relative -z-10 top-0 left-0 right-0 mb-16">
-            <img className="w-full h-screen object-cover" src="https://images.pexels.com/photos/6393013/pexels-photo-6393013.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
+        <div className="relative z-0 top-0 left-0 right-0">
+            <img className="w-full h-screen max-h-[680px] object-cover" src="https://images.pexels.com/photos/6393013/pexels-photo-6393013.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
             <div className="bg-black bg-opacity-25 absolute top-0 left-0 h-full w-full flex flex-col text-start px-24 text-[#dbebfd] justify-center items-start">
                 <h2 className="text-lg font-bold mb-2 uppercase text-[#ff9185] mt-10">Nesting Your Tasks</h2>
                 <p className="text-4xl font-bold mb-6">Streamlining Collaboration, <br /> Boosting Productivity</p>
