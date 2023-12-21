@@ -1,7 +1,7 @@
 const ForWhom = () => {
     return (
         <div className="px-24 py-16">
-            <h2 className="text-3xl font-bold mb-20 uppercase">For Whom?</h2>
+            <h2 className="text-3xl font-bold mb-20 uppercase">Our Product Users</h2>
 
             {/* Students Div */}
             <div className="grid grid-cols-2 gap-x-16 mb-24">
