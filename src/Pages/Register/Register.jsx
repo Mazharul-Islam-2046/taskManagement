@@ -1,51 +1,63 @@
-import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Footer from "../SharedComponents/Footer/Footer";
 import Navbar from "../SharedComponents/Navbar/Navbar";
-import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { useContext } from "react";
+import './register.css'
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
+  const { createUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const { signIn } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const from = location.state?.from?.pathname || "/";
-
-  const handleLogin = (data) => {
-    const email = data.email;
+  const handleRegister = (data) => {
     const password = data.password;
+    // const name = data.name;
+    const email = data.email;
 
-    signIn(email, password).then((result) => {
-      const user = result.user;
-      console.log(user);
-      Swal.fire({
-        title: "User Login Successful.",
-        showClass: {
-          popup: "animate__animated animate__fadeInDown",
-        },
-        hideClass: {
-          popup: "animate__animated animate__fadeOutUp",
-        },
-      });
-      navigate(from, { replace: true });
-    });
-  };
+    createUser(email, password)
+            .then((result) => {
+                if(result) {
+                    reset()
+                    Swal.fire({
+                        title: "User Registered Successful.",
+                        showClass: {
+                          popup: "animate__animated animate__fadeInDown",
+                        },
+                        hideClass: {
+                          popup: "animate__animated animate__fadeOutUp",
+                        },
+                      });
+                      navigate(from, { replace: true });
+                }
+  })
+}
+
+
+
+
+
+
   return (
     <div>
       <Navbar />
       <div className="py-32 flex justify-center items-center bg-[url('https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover">
         <div>
-          <h2 className="text-3xl font-bold uppercase mb-10">Login</h2>
+          <h2 className="text-3xl font-bold uppercase mb-10">Register</h2>
           <form
-            onSubmit={handleSubmit(handleLogin)}
+            onSubmit={handleSubmit(handleRegister)}
             className="flex flex-col justify-center relative gap-4 w-[40vw] px-12 py-8 border-4 rounded-md border-[#dbebfd]"
           >
             <div className="absolute top-0 left-0 h-full w-full glass">
@@ -77,7 +89,6 @@ const Login = () => {
                 maxLength: 20,
                 pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
               })}
-              type="password"
             />
             {errors.password?.type === "required" && (
               <p className="text-red-600">Password is required</p>
@@ -98,16 +109,16 @@ const Login = () => {
             )}
 
             <p className="text-gray-800 z-10 font-bold">
-              Do not have an account? 
+              Already have an account? 
               <span className="underline hover:text-[#2ecc71]">
-                <Link to="/register">Register</Link>
+                <Link to="/login">Login</Link>
               </span>
             </p>
 
             <input
               className="bg-[#dbebfd] z-10 text-lg font-bold py-3 uppercase rounded-md cursor-pointer hover:bg-gray-800 hover:text-[#dbebfd]"
               type="submit"
-              value="Login"
+              value="Register"
             />
           </form>
         </div>
@@ -117,4 +128,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

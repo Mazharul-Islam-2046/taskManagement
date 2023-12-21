@@ -9,10 +9,10 @@ import {
     signOut,
 } from "firebase/auth";
 import PropTypes from "prop-types";
-import app from "../Firebase/firebase.config";
 import { useEffect } from "react";
 import { createContext } from "react";
 import { useState } from "react";
+import app from "../Firebase/firebase.config";
 
 export const AuthContext = createContext(null);
 

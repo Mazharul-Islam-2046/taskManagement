@@ -1,6 +1,6 @@
 const OurTeam = () => {
     return (
-        <div className="px-24 py-16">
+        <div className="px-24 py-16 mb-16">
             <h2 className="uppercase text-3xl font-bold mb-20">Meet The Team</h2>
             {/* 1st Row */}
             <div className="flex justify-center gap-16 mb-14">

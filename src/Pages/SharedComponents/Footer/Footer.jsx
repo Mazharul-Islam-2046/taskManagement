@@ -3,7 +3,7 @@ import { FaGithub } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 const Footer = () => {
     return (
-        <div className="bg-[#2ecc71] py-3 mt-16 space-y-5">
+        <div className="bg-[#2ecc71] py-3 space-y-5">
             <div className="space-y-3 px-24">
                 <h2 className="text-[#dbebfd] text-3xl font-bold">
                 TaskN<span className="">est</span>
