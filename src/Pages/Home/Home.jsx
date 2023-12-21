@@ -1,5 +1,5 @@
 import Navbar from "../SharedComponents/Navbar/Navbar";
-import Footer from "./Sections/Footer/Footer";
+import Footer from "../SharedComponents/Footer/Footer";
 import ForWhom from "./Sections/ForWhom/ForWhom";
 import Hero from "./Sections/Hero/Hero";
 import OurTeam from "./Sections/OurTeam/OurTeam";
