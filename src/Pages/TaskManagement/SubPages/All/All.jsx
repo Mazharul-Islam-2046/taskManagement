@@ -37,8 +37,8 @@ const completeData = [
     task: 4,
   },
   {
-    task: 5
-  }
+    task: 5,
+  },
 ];
 
 const All = () => {
@@ -47,70 +47,213 @@ const All = () => {
   const [completeTasks, setCompleteTasks] = useState(completeData);
 
   const handleDrag = (results) => {
-
-    const { source, destination, type } = results;
-
+    const { source, destination } = results;
 
     // Never Droped
     if (!destination) return;
-
 
     // Dropped in the same Place
     if (
       source.droppableId === destination.droppableId &&
       source.index === destination.index
-    ) return;
-
-
+    )
+      return;
 
     // Dropped in the same box but Different place TODO
-    if (type === "todo" && source.droppableId === destination.droppableId) {
+    if (
+      source.droppableId === "todo" &&
+      source.droppableId === destination.droppableId
+    ) {
       const reorderedToDoTasks = [...todoTasks];
 
-      const toDoTaskSourceIndex = source.index;
-      const toDoTaskDestinatonIndex = destination.index;
+      const toDoTaskSourceIndex = source?.index;
+      const toDoTaskDestinatonIndex = destination?.index;
 
-      const [kickOutToDoTask] = reorderedToDoTasks.splice(toDoTaskSourceIndex, 1);
+      const [kickOutToDoTask] = reorderedToDoTasks.splice(
+        toDoTaskSourceIndex,
+        1
+      );
       reorderedToDoTasks.splice(toDoTaskDestinatonIndex, 0, kickOutToDoTask);
 
-      return setTodoTasks(reorderedToDoTasks)
+      return setTodoTasks(reorderedToDoTasks);
     }
-
-
-
 
     // Dropped in the same box but Different place INPROGRESS
-    if (type === "inprogress" && source.droppableId === destination.droppableId) {
-      const reorderedToDoTasks = [...inProgressTasks];
+    if (
+      source.droppableId === "inprogress" &&
+      source.droppableId === destination.droppableId
+    ) {
+      const reorderedInProgressTasks = [...inProgressTasks];
 
-      const toDoTaskSourceIndex = source.index;
-      const toDoTaskDestinatonIndex = destination.index;
+      const inProgressTaskSourceIndex = source?.index;
+      const inProgressTaskDestinatonIndex = destination?.index;
 
-      const [kickOutToDoTask] = reorderedToDoTasks.splice(toDoTaskSourceIndex, 1);
-      reorderedToDoTasks.splice(toDoTaskDestinatonIndex, 0, kickOutToDoTask);
+      const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
+        inProgressTaskSourceIndex,
+        1
+      );
+      reorderedInProgressTasks.splice(
+        inProgressTaskDestinatonIndex,
+        0,
+        kickOutInProgressTask
+      );
 
-      return setInProgressTasks(reorderedToDoTasks)
+      return setInProgressTasks(reorderedInProgressTasks);
     }
-
-
-
 
     // Dropped in the same box but Different place COMPLETE
-    if (type === "complete" && source.droppableId === destination.droppableId) {
-      const reorderedToDoTasks = [...completeTasks];
+    if (
+      source.droppableId === "complete" &&
+      source.droppableId === destination.droppableId
+    ) {
+      const reorderedCompleteTasks = [...completeTasks];
 
-      const toDoTaskSourceIndex = source.index;
-      const toDoTaskDestinatonIndex = destination.index;
+      const completeTaskSourceIndex = source.index;
+      const completeTaskDestinatonIndex = destination.index;
 
-      const [kickOutToDoTask] = reorderedToDoTasks.splice(toDoTaskSourceIndex, 1);
-      reorderedToDoTasks.splice(toDoTaskDestinatonIndex, 0, kickOutToDoTask);
+      const [kickOutCompleteTask] = reorderedCompleteTasks.splice(
+        completeTaskSourceIndex,
+        1
+      );
+      reorderedCompleteTasks.splice(
+        completeTaskDestinatonIndex,
+        0,
+        kickOutCompleteTask
+      );
 
-      return setCompleteTasks(reorderedToDoTasks)
+      return setCompleteTasks(reorderedCompleteTasks);
     }
 
+    // Dropped in the different box from TODO
+    if (
+      source.droppableId === "todo" &&
+      source?.droppableId !== destination?.droppableId
+    ) {
+      const toDoTaskSourceIndex = source?.index;
+      const toDoTaskDestinatonIndex = destination?.index;
+      const toDoTaskDestinationID = destination?.droppableId;
+      const reorderedTodo = [...todoTasks];
+      console.log(toDoTaskSourceIndex, toDoTaskDestinatonIndex, toDoTaskDestinationID);
+      if (toDoTaskDestinationID === "inprogress") {
+        const reorderedInprogress = [...inProgressTasks]
+        const [kickOutTodoTask] = reorderedTodo.splice(
+            toDoTaskSourceIndex,
+            1
+          );
+          reorderedInprogress.splice(
+            toDoTaskDestinatonIndex,
+            0,
+            kickOutTodoTask
+          );
+    
+          setInProgressTasks(reorderedInprogress);
+          setTodoTasks(reorderedTodo)
+          return
+      }
+      const reorderedComplete = [...completeTasks]
+        const [kickOutTodoTask] = reorderedTodo.splice(
+            toDoTaskSourceIndex,
+            1
+          );
+          reorderedComplete.splice(
+            toDoTaskDestinatonIndex,
+            0,
+            kickOutTodoTask
+          );
+
+    
+          setCompleteTasks(reorderedComplete);
+          setTodoTasks(reorderedTodo)
+          return
+    }
+
+    
+    // Dropped in the different box from INPROGRESS
+    if (
+        source.droppableId === "inprogress" &&
+        source?.droppableId !== destination?.droppableId
+      ) {
+        const inProgressTaskSourceIndex = source?.index;
+        const inProgressTaskDestinatonIndex = destination?.index;
+        const inProgressTaskDestinationID = destination?.droppableId;
+        const reorderedInProgressTasks = [...inProgressTasks];
+        console.log(inProgressTaskSourceIndex, inProgressTaskDestinatonIndex, inProgressTaskDestinationID);
+        if (inProgressTaskDestinationID === "todo") {
+          const reorderedToDoTasks = [...todoTasks]
+          const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
+            inProgressTaskSourceIndex,
+            1
+          );
+          reorderedToDoTasks.splice(
+            inProgressTaskDestinatonIndex,
+            0,
+            kickOutInProgressTask
+          )
+          setTodoTasks(reorderedToDoTasks)
+          setInProgressTasks(reorderedInProgressTasks)
+            return
+        }
+        const reorderedComplete = [...completeTasks]
+          const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
+              inProgressTaskSourceIndex,
+              1
+            );
+            reorderedComplete.splice(
+              inProgressTaskDestinatonIndex,
+              0,
+              kickOutInProgressTask
+            );
+  
+      
+            setCompleteTasks(reorderedComplete);
+            setInProgressTasks(reorderedInProgressTasks)
+            return
+      }
 
 
-    // Dropped in the different box
+      
+    // Dropped in the different box from Complete
+    if (
+        source.droppableId === "complete" &&
+        source?.droppableId !== destination?.droppableId
+      ) {
+        const completeTaskSourceIndex = source?.index;
+        const completeTaskDestinatonIndex = destination?.index;
+        const completeTaskDestinationID = destination?.droppableId;
+        const reorderedComplete = [...completeTasks];
+        console.log(completeTaskSourceIndex, completeTaskDestinatonIndex, completeTaskDestinationID);
+        if (completeTaskDestinationID === "inprogress") {
+          const reorderedInprogress = [...inProgressTasks]
+          const [kickOutCompleteTask] = reorderedComplete.splice(
+              completeTaskSourceIndex,
+              1
+            );
+            reorderedInprogress.splice(
+              completeTaskDestinatonIndex,
+              0,
+              kickOutCompleteTask
+            );
+      
+            setInProgressTasks(reorderedInprogress);
+            setCompleteTasks(reorderedComplete)
+            return
+        }
+        const reorderedTodo = [...todoTasks]
+          const [kickOutCompleteTask] = reorderedComplete.splice(
+              completeTaskSourceIndex,
+              1
+            );
+            reorderedTodo.splice(
+              completeTaskDestinatonIndex,
+              0,
+              kickOutCompleteTask
+            );
+  
+      
+            setTodoTasks(reorderedTodo);
+            setCompleteTasks(reorderedComplete)
+            return
+      }
   };
 
   return (
@@ -118,7 +261,7 @@ const All = () => {
       <DragDropContext onDragEnd={handleDrag}>
         <div className="py-12 grid grid-cols-3 gap-16">
           {/* To Do Box */}
-          <Droppable droppableId="todo" type="inprogress">
+          <Droppable droppableId="todo" type="status">
             {(provided) => (
               <div
                 {...provided.droppableProps}
@@ -158,7 +301,7 @@ const All = () => {
           </Droppable>
 
           {/* In Progress Box */}
-          <Droppable droppableId="inprogress" type="inprogress">
+          <Droppable droppableId="inprogress" type="status">
             {(provided) => (
               <div
                 {...provided.droppableProps}
@@ -198,7 +341,7 @@ const All = () => {
           </Droppable>
 
           {/* Complete Box */}
-          <Droppable droppableId="complete" type="complete">
+          <Droppable droppableId="complete" type="status">
             {(provided) => (
               <div
                 {...provided.droppableProps}
