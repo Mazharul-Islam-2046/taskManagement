@@ -119,7 +119,6 @@ const All = () => {
             0,
             kickOutTodoTask
           );
-          fetch("")
           settodoRefetch(!todoRefetch)
           setInprogressRefetch(!inprogessRefetch)
           return
