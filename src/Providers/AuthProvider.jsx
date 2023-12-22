@@ -44,7 +44,6 @@ const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState(null);
   
 
 
@@ -91,16 +90,41 @@ const AuthProvider = ({ children }) => {
 
 
 
-  useEffect(()=>{
+  
+
+  const [toDoData, setTodoData] = useState([]);
+  const [todoRefetch, settodoRefetch] = useState(true)
+  const [inprogessRefetch, setInprogressRefetch] = useState(true)
+  const [completeRefetch, setCompleteRefetch] = useState(true)
+  const [inProgressData, setInProgressData] = useState([]);
+  const [completeData, setCompleteData] = useState([]);
+
+
+  useEffect(()=> {
     setLoading(true)
-    fetch (`https://blood-donation-server-snowy.vercel.app/users/${user?.email}`)
+    fetch (`https://task-management-server-topaz.vercel.app/tasks/${user?.email}/todo`)
     .then(res=> res.json())
     .then((data) => {
-      setUserData(data)
+      setTodoData(data)
       setLoading(false)
+  })}, [todoRefetch, user])
+  useEffect(()=> {
+    setLoading(true)
+    fetch (`https://task-management-server-topaz.vercel.app/tasks/${user?.email}/inprogress`)
+    .then(res=> res.json())
+    .then((data) => {
+      setInProgressData(data)
+      setLoading(false)
+  })}, [inprogessRefetch, user])
+  useEffect(()=> {
+    setLoading(true)
+    fetch (`https://task-management-server-topaz.vercel.app/tasks/${user?.email}/complete`)
+    .then(res=> res.json())
+    .then((data) => {
+      setCompleteData(data)
+      setLoading(false)
+  })}, [completeRefetch, user])
 
-    })
-  },[user])
 
 
 
@@ -113,7 +137,15 @@ const AuthProvider = ({ children }) => {
     signIn,
     logOut,
     googleSignIn,
-    userData,
+    toDoData,
+    settodoRefetch,
+    setInprogressRefetch,
+    setCompleteRefetch,
+    todoRefetch,
+    completeRefetch,
+    inprogessRefetch,
+    inProgressData,
+    completeData
   };
 
   return (

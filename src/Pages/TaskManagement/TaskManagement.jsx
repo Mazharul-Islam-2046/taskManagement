@@ -49,13 +49,13 @@ const TaskManagement = () => {
     const description = data?.description;
     const priority = data?.priority;
     console.log(title, description, priority);
-    fetch("http://localhost:5000/tasks", {
+    fetch("https://task-management-server-topaz.vercel.app/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ title, description, priority, 
-        user_email: user.email }),
+        user_email: user.email, status: "todo" }),
     })
       .then((res) => res.json())
       .then((data) => {

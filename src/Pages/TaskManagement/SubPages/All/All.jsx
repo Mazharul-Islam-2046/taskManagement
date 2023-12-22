@@ -1,50 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { AuthContext } from "../../../../Providers/AuthProvider";
 
-const toDoData = [
-  {
-    task: 1,
-  },
-  {
-    task: 2,
-  },
-  {
-    task: 3,
-  },
-  {
-    task: 4,
-  },
-];
-const inProgressData = [
-  {
-    task: 1,
-  },
-  {
-    task: 2,
-  },
-];
-const completeData = [
-  {
-    task: 1,
-  },
-  {
-    task: 2,
-  },
-  {
-    task: 3,
-  },
-  {
-    task: 4,
-  },
-  {
-    task: 5,
-  },
-];
 
 const All = () => {
-  const [todoTasks, setTodoTasks] = useState(toDoData);
-  const [inProgressTasks, setInProgressTasks] = useState(inProgressData);
-  const [completeTasks, setCompleteTasks] = useState(completeData);
+
+    const {inProgressData, toDoData, completeData, todoRefetch, completeRefetch, inprogessRefetch, setCompleteRefetch, setInprogressRefetch, settodoRefetch} = useContext(AuthContext)
+
+    console.log(inProgressData, toDoData, completeData);
+
+
+
+
+    
+  
 
   const handleDrag = (results) => {
     const { source, destination } = results;
@@ -64,7 +33,7 @@ const All = () => {
       source.droppableId === "todo" &&
       source.droppableId === destination.droppableId
     ) {
-      const reorderedToDoTasks = [...todoTasks];
+      const reorderedToDoTasks = [...toDoData];
 
       const toDoTaskSourceIndex = source?.index;
       const toDoTaskDestinatonIndex = destination?.index;
@@ -75,7 +44,8 @@ const All = () => {
       );
       reorderedToDoTasks.splice(toDoTaskDestinatonIndex, 0, kickOutToDoTask);
 
-      return setTodoTasks(reorderedToDoTasks);
+      settodoRefetch(!todoRefetch)
+      return
     }
 
     // Dropped in the same box but Different place INPROGRESS
@@ -83,7 +53,7 @@ const All = () => {
       source.droppableId === "inprogress" &&
       source.droppableId === destination.droppableId
     ) {
-      const reorderedInProgressTasks = [...inProgressTasks];
+      const reorderedInProgressTasks = [...inProgressData];
 
       const inProgressTaskSourceIndex = source?.index;
       const inProgressTaskDestinatonIndex = destination?.index;
@@ -98,7 +68,9 @@ const All = () => {
         kickOutInProgressTask
       );
 
-      return setInProgressTasks(reorderedInProgressTasks);
+      setInprogressRefetch(!inprogessRefetch)
+
+      return
     }
 
     // Dropped in the same box but Different place COMPLETE
@@ -106,7 +78,7 @@ const All = () => {
       source.droppableId === "complete" &&
       source.droppableId === destination.droppableId
     ) {
-      const reorderedCompleteTasks = [...completeTasks];
+      const reorderedCompleteTasks = [...completeData];
 
       const completeTaskSourceIndex = source.index;
       const completeTaskDestinatonIndex = destination.index;
@@ -121,7 +93,9 @@ const All = () => {
         kickOutCompleteTask
       );
 
-      return setCompleteTasks(reorderedCompleteTasks);
+      setCompleteRefetch(!completeRefetch)
+
+      return
     }
 
     // Dropped in the different box from TODO
@@ -132,10 +106,10 @@ const All = () => {
       const toDoTaskSourceIndex = source?.index;
       const toDoTaskDestinatonIndex = destination?.index;
       const toDoTaskDestinationID = destination?.droppableId;
-      const reorderedTodo = [...todoTasks];
+      const reorderedTodo = [...toDoData];
       console.log(toDoTaskSourceIndex, toDoTaskDestinatonIndex, toDoTaskDestinationID);
       if (toDoTaskDestinationID === "inprogress") {
-        const reorderedInprogress = [...inProgressTasks]
+        const reorderedInprogress = [...inProgressData]
         const [kickOutTodoTask] = reorderedTodo.splice(
             toDoTaskSourceIndex,
             1
@@ -145,12 +119,12 @@ const All = () => {
             0,
             kickOutTodoTask
           );
-    
-          setInProgressTasks(reorderedInprogress);
-          setTodoTasks(reorderedTodo)
+          fetch("")
+          settodoRefetch(!todoRefetch)
+          setInprogressRefetch(!inprogessRefetch)
           return
       }
-      const reorderedComplete = [...completeTasks]
+      const reorderedComplete = [...completeData]
         const [kickOutTodoTask] = reorderedTodo.splice(
             toDoTaskSourceIndex,
             1
@@ -161,9 +135,8 @@ const All = () => {
             kickOutTodoTask
           );
 
-    
-          setCompleteTasks(reorderedComplete);
-          setTodoTasks(reorderedTodo)
+          setCompleteRefetch(!completeRefetch)
+          settodoRefetch(!todoRefetch)
           return
     }
 
@@ -176,10 +149,10 @@ const All = () => {
         const inProgressTaskSourceIndex = source?.index;
         const inProgressTaskDestinatonIndex = destination?.index;
         const inProgressTaskDestinationID = destination?.droppableId;
-        const reorderedInProgressTasks = [...inProgressTasks];
+        const reorderedInProgressTasks = [...inProgressData];
         console.log(inProgressTaskSourceIndex, inProgressTaskDestinatonIndex, inProgressTaskDestinationID);
         if (inProgressTaskDestinationID === "todo") {
-          const reorderedToDoTasks = [...todoTasks]
+          const reorderedToDoTasks = [...toDoData]
           const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
             inProgressTaskSourceIndex,
             1
@@ -189,11 +162,11 @@ const All = () => {
             0,
             kickOutInProgressTask
           )
-          setTodoTasks(reorderedToDoTasks)
-          setInProgressTasks(reorderedInProgressTasks)
+          settodoRefetch(!todoRefetch)
+          setInprogressRefetch(!inprogessRefetch)
             return
         }
-        const reorderedComplete = [...completeTasks]
+        const reorderedComplete = [...completeData]
           const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
               inProgressTaskSourceIndex,
               1
@@ -205,8 +178,8 @@ const All = () => {
             );
   
       
-            setCompleteTasks(reorderedComplete);
-            setInProgressTasks(reorderedInProgressTasks)
+            setCompleteRefetch(!completeRefetch)
+            setInprogressRefetch(!inprogessRefetch)
             return
       }
 
@@ -220,10 +193,10 @@ const All = () => {
         const completeTaskSourceIndex = source?.index;
         const completeTaskDestinatonIndex = destination?.index;
         const completeTaskDestinationID = destination?.droppableId;
-        const reorderedComplete = [...completeTasks];
+        const reorderedComplete = [...completeData];
         console.log(completeTaskSourceIndex, completeTaskDestinatonIndex, completeTaskDestinationID);
         if (completeTaskDestinationID === "inprogress") {
-          const reorderedInprogress = [...inProgressTasks]
+          const reorderedInprogress = [...inProgressData]
           const [kickOutCompleteTask] = reorderedComplete.splice(
               completeTaskSourceIndex,
               1
@@ -233,12 +206,11 @@ const All = () => {
               0,
               kickOutCompleteTask
             );
-      
-            setInProgressTasks(reorderedInprogress);
-            setCompleteTasks(reorderedComplete)
+            setInprogressRefetch(!inprogessRefetch)
+            setCompleteRefetch(!completeRefetch)
             return
         }
-        const reorderedTodo = [...todoTasks]
+        const reorderedTodo = [...toDoData]
           const [kickOutCompleteTask] = reorderedComplete.splice(
               completeTaskSourceIndex,
               1
@@ -249,9 +221,8 @@ const All = () => {
               kickOutCompleteTask
             );
   
-      
-            setTodoTasks(reorderedTodo);
-            setCompleteTasks(reorderedComplete)
+            setCompleteRefetch(!completeRefetch)
+            settodoRefetch(!todoRefetch)
             return
       }
   };
@@ -273,7 +244,7 @@ const All = () => {
                   To Do
                 </h3>
                 <div className="mt-6 space-y-4">
-                  {todoTasks.map((task, index) => (
+                  {toDoData.map((task, index) => (
                     <Draggable
                       draggableId={`toDoTask-${index}`}
                       index={index}
@@ -287,7 +258,7 @@ const All = () => {
                           className="py-3 px-4 bg-yellow-400 text-white rounded-md"
                         >
                           <h4 className="text-lg font-bold text-left">
-                            Task {task?.task}
+                            Task {task?.title}
                           </h4>
                           <p>
                             {task.description}
@@ -316,7 +287,7 @@ const All = () => {
                   In Progress
                 </h3>
                 <div className="mt-6 space-y-4">
-                  {inProgressTasks.map((task, index) => (
+                  {inProgressData.map((task, index) => (
                     <Draggable
                       draggableId={`inProgressTask-${index}`}
                       index={index}
@@ -356,7 +327,7 @@ const All = () => {
                   Complete
                 </h3>
                 <div className="mt-6 space-y-4">
-                  {completeTasks.map((task, index) => (
+                  {completeData.map((task, index) => (
                     <Draggable
                       draggableId={`completeTask-${index}`}
                       index={index}
