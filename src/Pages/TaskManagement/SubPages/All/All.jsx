@@ -289,6 +289,9 @@ const All = () => {
                           <h4 className="text-lg font-bold text-left">
                             Task {task?.task}
                           </h4>
+                          <p>
+                            {task.description}
+                          </p>
                         </div>
                       )}
                     </Draggable>
@@ -310,7 +313,7 @@ const All = () => {
               >
                 {/* Title */}
                 <h3 className="text-2xl text-left uppercase font-bold">
-                  To Do
+                  In Progress
                 </h3>
                 <div className="mt-6 space-y-4">
                   {inProgressTasks.map((task, index) => (
@@ -350,7 +353,7 @@ const All = () => {
               >
                 {/* Title */}
                 <h3 className="text-2xl text-left uppercase font-bold">
-                  To Do
+                  Complete
                 </h3>
                 <div className="mt-6 space-y-4">
                   {completeTasks.map((task, index) => (

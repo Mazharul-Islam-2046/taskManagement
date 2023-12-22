@@ -1,7 +1,70 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
+import Modal from "react-modal";
+import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../Providers/AuthProvider";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+//   Modal.setAppElement('#yourAppElement');
 
 const TaskManagement = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const {user} = useContext(AuthContext)
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = "#f00";
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  const handleAddTask = (data) => {
+    const title = data?.title;
+    const description = data?.description;
+    const priority = data?.priority;
+    console.log(title, description, priority);
+    fetch("http://localhost:5000/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, description, priority, 
+        user_email: user.email }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data && Swal.fire("Task Added Successfully");
+        closeModal();
+        reset()
+      });
+  };
+
   return (
     <div>
       <div className="py-10 px-24 border-b-4 border-b-[#2ecc71] mb-6">
@@ -54,9 +117,79 @@ const TaskManagement = () => {
         </div>
 
         {/* Add Task */}
-            <button className="flex items-center justify-center py-1 px-6 mb-1 rounded-full border-2 border-[#2ecc71] gap-2 hover:bg-[#2ecc71]">
-                <IoMdAdd/> Add Task
-            </button>
+        <button
+          onClick={openModal}
+          className="flex items-center justify-center py-1 px-6 mb-1 rounded-full border-2 border-[#2ecc71] gap-2 hover:bg-[#2ecc71]"
+        >
+          <IoMdAdd /> Add Task
+        </button>
+      </div>
+      <div>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <h3 className="text-3xl font-semibold text-center uppercase mb-6">
+            Add Task
+          </h3>
+          <form
+            onSubmit={handleSubmit(handleAddTask)}
+            className="flex flex-col w-[40vw] py-5 px-10"
+          >
+            <label htmlFor="">Title</label>
+            <input
+              {...register("title", {
+                required: true,
+              })}
+              className="mb-8 bg-transparent border-2 border-[#2ecc71]"
+              type="text"
+              name="title"
+              id=""
+            />
+            {errors.email?.type === "required" && (
+              <p className="text-red-600">Title is required</p>
+            )}
+
+            <label>Description</label>
+            <input
+              {...register("description", {
+                required: true,
+              })}
+              className="mb-8 bg-transparent border-2 border-[#2ecc71]"
+              type="text"
+              name="description"
+              id=""
+            />
+
+            {errors.email?.type === "required" && (
+              <p className="text-red-600">Description is required</p>
+            )}
+
+            <label htmlFor="">Priority(High, Medium, Low)</label>
+            <input
+              {...register("priority", {
+                required: true,
+              })}
+              className="mb-8 bg-transparent border-2 border-[#2ecc71]"
+              type="text"
+              name="priority"
+              id=""
+            />
+
+            {errors.email?.type === "required" && (
+              <p className="text-red-600">Priority is required</p>
+            )}
+
+            <input
+              className="cursor-pointer bg-[#2ecc71] py-3 text-white font-bold text-lg hover:bg-gray-800"
+              type="submit"
+              value="Create"
+            />
+          </form>
+        </Modal>
       </div>
       <div className="px-24">
         <Outlet />
