@@ -20,6 +20,11 @@ const customStyles = {
 //   Modal.setAppElement('#yourAppElement');
 
 const TaskManagement = () => {
+
+  const {reFetch, setReFetch} = useContext(AuthContext)
+
+
+
   const {
     register,
     handleSubmit,
@@ -48,7 +53,6 @@ const TaskManagement = () => {
     const title = data?.title;
     const description = data?.description;
     const priority = data?.priority;
-    console.log(title, description, priority);
     fetch("https://task-management-server-topaz.vercel.app/tasks", {
       method: "POST",
       headers: {
@@ -59,6 +63,8 @@ const TaskManagement = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setReFetch(!reFetch)
+        // console.log(reFetch);
         data && Swal.fire("Task Added Successfully");
         closeModal();
         reset()

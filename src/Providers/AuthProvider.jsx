@@ -95,6 +95,7 @@ const AuthProvider = ({ children }) => {
   const [toDoData, setTodoData] = useState([]);
   const [inProgressData, setInProgressData] = useState([]);
   const [completeData, setCompleteData] = useState([]);
+  const [reFetch, setReFetch] = useState(true)
 
 
   useEffect(()=> {
@@ -104,7 +105,7 @@ const AuthProvider = ({ children }) => {
     .then((data) => {
       setTodoData(data)
       setLoading(false)
-  })}, [user])
+  })}, [user, reFetch])
   useEffect(()=> {
     setLoading(true)
     fetch (`https://task-management-server-topaz.vercel.app/tasks/${user?.email}/inprogress`)
@@ -112,7 +113,7 @@ const AuthProvider = ({ children }) => {
     .then((data) => {
       setInProgressData(data)
       setLoading(false)
-  })}, [user])
+  })}, [user, reFetch])
   useEffect(()=> {
     setLoading(true)
     fetch (`https://task-management-server-topaz.vercel.app/tasks/${user?.email}/complete`)
@@ -120,7 +121,7 @@ const AuthProvider = ({ children }) => {
     .then((data) => {
       setCompleteData(data)
       setLoading(false)
-  })}, [user])
+  })}, [user, reFetch])
 
 
 
@@ -139,7 +140,9 @@ const AuthProvider = ({ children }) => {
     completeData,
     setCompleteData,
     setInProgressData,
-    setTodoData
+    setTodoData,
+    reFetch,
+    setReFetch
   };
 
   return (
