@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { AuthContext } from "../../../../Providers/AuthProvider";
+import { MdDelete } from "react-icons/md";
 
 const All = () => {
   const {
@@ -136,8 +137,22 @@ const All = () => {
       }
       const reorderedComplete = [...completeData];
       const [kickOutTodoTask] = reorderedTodo.splice(toDoTaskSourceIndex, 1);
+      const status = "complete"
       reorderedComplete.splice(toDoTaskDestinatonIndex, 0, kickOutTodoTask);
-
+      fetch(`http://localhost:5000/tasks/${kickOutTodoTask._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       setCompleteData(reorderedComplete);
       setTodoData(reorderedTodo);
       return;
@@ -159,6 +174,7 @@ const All = () => {
       );
       if (inProgressTaskDestinationID === "todo") {
         const reorderedToDoTasks = [...toDoData];
+        const status = "todo"
         const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
           inProgressTaskSourceIndex,
           1
@@ -168,11 +184,26 @@ const All = () => {
           0,
           kickOutInProgressTask
         );
+        fetch(`http://localhost:5000/tasks/${kickOutInProgressTask._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         setTodoData(reorderedToDoTasks);
         setInProgressData(reorderedInProgressTasks);
         return;
       }
       const reorderedComplete = [...completeData];
+      const status = "complete"
       const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
         inProgressTaskSourceIndex,
         1
@@ -182,6 +213,20 @@ const All = () => {
         0,
         kickOutInProgressTask
       );
+      fetch(`http://localhost:5000/tasks/${kickOutInProgressTask._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
       setCompleteData(reorderedComplete);
       setInProgressData(reorderedInProgressTasks);
@@ -258,12 +303,20 @@ const All = () => {
                           {...provided.dragHandleProps}
                           {...provided.draggableProps}
                           ref={provided.innerRef}
-                          className="py-3 px-4 bg-yellow-400 text-white rounded-md"
+                          className="py-4 px-4 bg-yellow-400 text-white rounded-md"
                         >
-                          <h4 className="text-lg font-bold text-left">
+                          <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
                             Task {task?.title}
                           </h4>
-                          <p>{task.description}</p>
+                          <p className="text-left text-sm mb-4">{task?.description.slice(0, 80)}...</p>
+                          <div className="flex justify-between pr-2">
+                            <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
+                              <h4>ToDo</h4>
+                            </div>
+                            <button className="text-xl text-[#ff7869]">
+                                <MdDelete/>
+                            </button>
+                          </div>
                         </div>
                       )}
                     </Draggable>
@@ -296,15 +349,24 @@ const All = () => {
                     >
                       {(provided) => (
                         <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          className="py-3 px-4 bg-yellow-400 text-white rounded-md"
-                        >
-                          <h4 className="text-lg font-bold text-left">
-                            Task {task?.task}
-                          </h4>
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        className="py-4 px-4 bg-yellow-400 text-white rounded-md"
+                      >
+                        <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
+                          Task {task?.title}
+                        </h4>
+                        <p className="text-left text-sm mb-4">{task?.description.slice(0, 80)}...</p>
+                        <div className="flex justify-between pr-2">
+                          <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
+                            <h4>In Progress</h4>
+                          </div>
+                          <button className="text-xl text-[#ff7869]">
+                              <MdDelete/>
+                          </button>
                         </div>
+                      </div>
                       )}
                     </Draggable>
                   ))}
@@ -336,15 +398,24 @@ const All = () => {
                     >
                       {(provided) => (
                         <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          className="py-3 px-4 bg-yellow-400 text-white rounded-md"
-                        >
-                          <h4 className="text-lg font-bold text-left">
-                            Task {task?.task}
-                          </h4>
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                        ref={provided.innerRef}
+                        className="py-4 px-4 bg-yellow-400 text-white rounded-md"
+                      >
+                        <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
+                          Task {task?.title}
+                        </h4>
+                        <p className="text-left text-sm mb-4">{task?.description.slice(0, 80)}...</p>
+                        <div className="flex justify-between pr-2">
+                          <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
+                            <h4>Complete</h4>
+                          </div>
+                          <button className="text-xl text-[#ff7869]">
+                              <MdDelete/>
+                          </button>
                         </div>
+                      </div>
                       )}
                     </Draggable>
                   ))}
