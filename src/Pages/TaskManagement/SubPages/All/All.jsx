@@ -1,19 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { AuthContext } from "../../../../Providers/AuthProvider";
 
-
 const All = () => {
+  const {
+    inProgressData,
+    toDoData,
+    completeData,
+    setCompleteData,
+    setInProgressData,
+    setTodoData,
+  } = useContext(AuthContext);
 
-    const {inProgressData, toDoData, completeData, todoRefetch, completeRefetch, inprogessRefetch, setCompleteRefetch, setInprogressRefetch, settodoRefetch} = useContext(AuthContext)
-
-    console.log(inProgressData, toDoData, completeData);
-
-
-
-
-    
-  
+  console.log(inProgressData, toDoData, completeData);
 
   const handleDrag = (results) => {
     const { source, destination } = results;
@@ -44,8 +43,8 @@ const All = () => {
       );
       reorderedToDoTasks.splice(toDoTaskDestinatonIndex, 0, kickOutToDoTask);
 
-      settodoRefetch(!todoRefetch)
-      return
+      setTodoData(reorderedToDoTasks);
+      return;
     }
 
     // Dropped in the same box but Different place INPROGRESS
@@ -68,9 +67,9 @@ const All = () => {
         kickOutInProgressTask
       );
 
-      setInprogressRefetch(!inprogessRefetch)
+      setInProgressData(reorderedInProgressTasks);
 
-      return
+      return;
     }
 
     // Dropped in the same box but Different place COMPLETE
@@ -93,9 +92,9 @@ const All = () => {
         kickOutCompleteTask
       );
 
-      setCompleteRefetch(!completeRefetch)
+      setCompleteData(reorderedCompleteTasks);
 
-      return
+      return;
     }
 
     // Dropped in the different box from TODO
@@ -107,123 +106,128 @@ const All = () => {
       const toDoTaskDestinatonIndex = destination?.index;
       const toDoTaskDestinationID = destination?.droppableId;
       const reorderedTodo = [...toDoData];
-      console.log(toDoTaskSourceIndex, toDoTaskDestinatonIndex, toDoTaskDestinationID);
+      console.log(
+        toDoTaskSourceIndex,
+        toDoTaskDestinatonIndex,
+        toDoTaskDestinationID
+      );
       if (toDoTaskDestinationID === "inprogress") {
-        const reorderedInprogress = [...inProgressData]
-        const [kickOutTodoTask] = reorderedTodo.splice(
-            toDoTaskSourceIndex,
-            1
-          );
-          reorderedInprogress.splice(
-            toDoTaskDestinatonIndex,
-            0,
-            kickOutTodoTask
-          );
-          settodoRefetch(!todoRefetch)
-          setInprogressRefetch(!inprogessRefetch)
-          return
+        const status = "inprogress";
+        const reorderedInprogress = [...inProgressData];
+        const [kickOutTodoTask] = reorderedTodo.splice(toDoTaskSourceIndex, 1);
+        reorderedInprogress.splice(toDoTaskDestinatonIndex, 0, kickOutTodoTask);
+        fetch(`http://localhost:5000/tasks/${kickOutTodoTask._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        setInProgressData(reorderedInprogress);
+        setTodoData(reorderedTodo);
+        return;
       }
-      const reorderedComplete = [...completeData]
-        const [kickOutTodoTask] = reorderedTodo.splice(
-            toDoTaskSourceIndex,
-            1
-          );
-          reorderedComplete.splice(
-            toDoTaskDestinatonIndex,
-            0,
-            kickOutTodoTask
-          );
+      const reorderedComplete = [...completeData];
+      const [kickOutTodoTask] = reorderedTodo.splice(toDoTaskSourceIndex, 1);
+      reorderedComplete.splice(toDoTaskDestinatonIndex, 0, kickOutTodoTask);
 
-          setCompleteRefetch(!completeRefetch)
-          settodoRefetch(!todoRefetch)
-          return
+      setCompleteData(reorderedComplete);
+      setTodoData(reorderedTodo);
+      return;
     }
 
-    
     // Dropped in the different box from INPROGRESS
     if (
-        source.droppableId === "inprogress" &&
-        source?.droppableId !== destination?.droppableId
-      ) {
-        const inProgressTaskSourceIndex = source?.index;
-        const inProgressTaskDestinatonIndex = destination?.index;
-        const inProgressTaskDestinationID = destination?.droppableId;
-        const reorderedInProgressTasks = [...inProgressData];
-        console.log(inProgressTaskSourceIndex, inProgressTaskDestinatonIndex, inProgressTaskDestinationID);
-        if (inProgressTaskDestinationID === "todo") {
-          const reorderedToDoTasks = [...toDoData]
-          const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
-            inProgressTaskSourceIndex,
-            1
-          );
-          reorderedToDoTasks.splice(
-            inProgressTaskDestinatonIndex,
-            0,
-            kickOutInProgressTask
-          )
-          settodoRefetch(!todoRefetch)
-          setInprogressRefetch(!inprogessRefetch)
-            return
-        }
-        const reorderedComplete = [...completeData]
-          const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
-              inProgressTaskSourceIndex,
-              1
-            );
-            reorderedComplete.splice(
-              inProgressTaskDestinatonIndex,
-              0,
-              kickOutInProgressTask
-            );
-  
-      
-            setCompleteRefetch(!completeRefetch)
-            setInprogressRefetch(!inprogessRefetch)
-            return
+      source.droppableId === "inprogress" &&
+      source?.droppableId !== destination?.droppableId
+    ) {
+      const inProgressTaskSourceIndex = source?.index;
+      const inProgressTaskDestinatonIndex = destination?.index;
+      const inProgressTaskDestinationID = destination?.droppableId;
+      const reorderedInProgressTasks = [...inProgressData];
+      console.log(
+        inProgressTaskSourceIndex,
+        inProgressTaskDestinatonIndex,
+        inProgressTaskDestinationID
+      );
+      if (inProgressTaskDestinationID === "todo") {
+        const reorderedToDoTasks = [...toDoData];
+        const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
+          inProgressTaskSourceIndex,
+          1
+        );
+        reorderedToDoTasks.splice(
+          inProgressTaskDestinatonIndex,
+          0,
+          kickOutInProgressTask
+        );
+        setTodoData(reorderedToDoTasks);
+        setInProgressData(reorderedInProgressTasks);
+        return;
       }
+      const reorderedComplete = [...completeData];
+      const [kickOutInProgressTask] = reorderedInProgressTasks.splice(
+        inProgressTaskSourceIndex,
+        1
+      );
+      reorderedComplete.splice(
+        inProgressTaskDestinatonIndex,
+        0,
+        kickOutInProgressTask
+      );
 
+      setCompleteData(reorderedComplete);
+      setInProgressData(reorderedInProgressTasks);
+      return;
+    }
 
-      
     // Dropped in the different box from Complete
     if (
-        source.droppableId === "complete" &&
-        source?.droppableId !== destination?.droppableId
-      ) {
-        const completeTaskSourceIndex = source?.index;
-        const completeTaskDestinatonIndex = destination?.index;
-        const completeTaskDestinationID = destination?.droppableId;
-        const reorderedComplete = [...completeData];
-        console.log(completeTaskSourceIndex, completeTaskDestinatonIndex, completeTaskDestinationID);
-        if (completeTaskDestinationID === "inprogress") {
-          const reorderedInprogress = [...inProgressData]
-          const [kickOutCompleteTask] = reorderedComplete.splice(
-              completeTaskSourceIndex,
-              1
-            );
-            reorderedInprogress.splice(
-              completeTaskDestinatonIndex,
-              0,
-              kickOutCompleteTask
-            );
-            setInprogressRefetch(!inprogessRefetch)
-            setCompleteRefetch(!completeRefetch)
-            return
-        }
-        const reorderedTodo = [...toDoData]
-          const [kickOutCompleteTask] = reorderedComplete.splice(
-              completeTaskSourceIndex,
-              1
-            );
-            reorderedTodo.splice(
-              completeTaskDestinatonIndex,
-              0,
-              kickOutCompleteTask
-            );
-  
-            setCompleteRefetch(!completeRefetch)
-            settodoRefetch(!todoRefetch)
-            return
+      source.droppableId === "complete" &&
+      source?.droppableId !== destination?.droppableId
+    ) {
+      const completeTaskSourceIndex = source?.index;
+      const completeTaskDestinatonIndex = destination?.index;
+      const completeTaskDestinationID = destination?.droppableId;
+      const reorderedComplete = [...completeData];
+      console.log(
+        completeTaskSourceIndex,
+        completeTaskDestinatonIndex,
+        completeTaskDestinationID
+      );
+      if (completeTaskDestinationID === "inprogress") {
+        const reorderedInprogress = [...inProgressData];
+        const [kickOutCompleteTask] = reorderedComplete.splice(
+          completeTaskSourceIndex,
+          1
+        );
+        reorderedInprogress.splice(
+          completeTaskDestinatonIndex,
+          0,
+          kickOutCompleteTask
+        );
+        setInProgressData(reorderedInprogress);
+        setCompleteData(reorderedComplete);
+        return;
       }
+      const reorderedTodo = [...toDoData];
+      const [kickOutCompleteTask] = reorderedComplete.splice(
+        completeTaskSourceIndex,
+        1
+      );
+      reorderedTodo.splice(completeTaskDestinatonIndex, 0, kickOutCompleteTask);
+
+      setTodoData(reorderedTodo);
+      setCompleteData(reorderedComplete);
+      return;
+    }
   };
 
   return (
@@ -259,9 +263,7 @@ const All = () => {
                           <h4 className="text-lg font-bold text-left">
                             Task {task?.title}
                           </h4>
-                          <p>
-                            {task.description}
-                          </p>
+                          <p>{task.description}</p>
                         </div>
                       )}
                     </Draggable>

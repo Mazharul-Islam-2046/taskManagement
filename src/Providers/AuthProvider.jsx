@@ -93,9 +93,6 @@ const AuthProvider = ({ children }) => {
   
 
   const [toDoData, setTodoData] = useState([]);
-  const [todoRefetch, settodoRefetch] = useState(true)
-  const [inprogessRefetch, setInprogressRefetch] = useState(true)
-  const [completeRefetch, setCompleteRefetch] = useState(true)
   const [inProgressData, setInProgressData] = useState([]);
   const [completeData, setCompleteData] = useState([]);
 
@@ -107,7 +104,7 @@ const AuthProvider = ({ children }) => {
     .then((data) => {
       setTodoData(data)
       setLoading(false)
-  })}, [todoRefetch, user])
+  })}, [user])
   useEffect(()=> {
     setLoading(true)
     fetch (`https://task-management-server-topaz.vercel.app/tasks/${user?.email}/inprogress`)
@@ -115,7 +112,7 @@ const AuthProvider = ({ children }) => {
     .then((data) => {
       setInProgressData(data)
       setLoading(false)
-  })}, [inprogessRefetch, user])
+  })}, [user])
   useEffect(()=> {
     setLoading(true)
     fetch (`https://task-management-server-topaz.vercel.app/tasks/${user?.email}/complete`)
@@ -123,7 +120,7 @@ const AuthProvider = ({ children }) => {
     .then((data) => {
       setCompleteData(data)
       setLoading(false)
-  })}, [completeRefetch, user])
+  })}, [user])
 
 
 
@@ -138,14 +135,11 @@ const AuthProvider = ({ children }) => {
     logOut,
     googleSignIn,
     toDoData,
-    settodoRefetch,
-    setInprogressRefetch,
-    setCompleteRefetch,
-    todoRefetch,
-    completeRefetch,
-    inprogessRefetch,
     inProgressData,
-    completeData
+    completeData,
+    setCompleteData,
+    setInProgressData,
+    setTodoData
   };
 
   return (
