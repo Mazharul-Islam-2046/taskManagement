@@ -11,6 +11,8 @@ const All = () => {
     setCompleteData,
     setInProgressData,
     setTodoData,
+    reFetch,
+    setReFetch
   } = useContext(AuthContext);
 
 
@@ -296,6 +298,28 @@ const All = () => {
     }
   };
 
+
+
+  
+
+
+  // Handle Delete
+
+  const handleDelete = (id) => {
+      console.log(id);
+      fetch(`http://localhost:5000/deleteTask/${id}`,
+      {method: "DELETE"}
+      ).then((res) => res.json())
+      .then((data) => {
+        data && setReFetch(!reFetch)
+      }).catch((error) => {
+        console.log(error);
+      })
+  }
+
+
+
+
   return (
     <div>
       <DragDropContext onDragEnd={handleDrag}>
@@ -337,7 +361,7 @@ const All = () => {
                               <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
                                 <h4>ToDo</h4>
                               </div>
-                              <button className="text-xl text-[#ff7869]">
+                              <button onClick={(() => handleDelete(task?._id))} className="text-xl text-[#ff7869]">
                                 <MdDelete />
                               </button>
                             </div>
@@ -394,7 +418,7 @@ const All = () => {
                               <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
                                 <h4>In Progress</h4>
                               </div>
-                              <button className="text-xl text-[#ff7869]">
+                              <button onClick={(() => handleDelete(task?._id))} className="text-xl text-[#ff7869]">
                                 <MdDelete />
                               </button>
                             </div>
@@ -451,7 +475,7 @@ const All = () => {
                               <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
                                 <h4>Complete</h4>
                               </div>
-                              <button className="text-xl text-[#ff7869]">
+                              <button onClick={(()=> handleDelete(task?._id))} className="text-xl text-[#ff7869]">
                                 <MdDelete />
                               </button>
                             </div>
