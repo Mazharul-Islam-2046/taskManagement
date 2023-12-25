@@ -6,6 +6,7 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const {
@@ -14,7 +15,9 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const { signIn } = useContext(AuthContext);
+  
+
+  const { signIn, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,6 +42,26 @@ const Login = () => {
       navigate(from, { replace: true });
     });
   };
+
+
+
+
+  // handle Google Login
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+    .then((res) => {
+      res && navigate(location?.state ? location.state : '/')
+      Swal.fire({
+        title: "User Login Successful.",
+        showClass: {
+          popup: "animate__animated animate__fadeInDown",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp",
+        },
+      });
+    })
+  }
   return (
     <div>
       <Helmet>
@@ -112,6 +135,10 @@ const Login = () => {
               type="submit"
               value="Login"
             />
+
+            <button onClick={handleGoogleSignIn} className="text-xl z-10 text-center flex justify-center py-3 hover:bg-slate-200 bg-blue-800 text-orange-500">
+              <FaGoogle/>
+            </button>
           </form>
         </div>
       </div>

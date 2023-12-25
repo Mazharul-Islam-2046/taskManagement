@@ -366,9 +366,9 @@ const All = () => {
                             ref={provided.innerRef}
                             className="py-4 px-4 bg-yellow-400 text-white rounded-md"
                           >
-                            <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
-                              Task {task?.title}{" "}
-                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">
+                            <h4 className="text-lg space text-gray-800 mb-1 font-bold text-left">
+                              {task?.title}
+                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800 ml-2">
                                 {task?.priority}
                               </span>
                             </h4>
@@ -431,7 +431,7 @@ const All = () => {
                           >
                             <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
                               Task {task?.title}{" "}
-                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">
+                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800 ml-2">
                                 {task?.priority}
                               </span>
                             </h4>
@@ -494,7 +494,7 @@ const All = () => {
                           >
                             <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
                               Task {task?.title}{" "}
-                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">
+                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800 ml-2">
                                 {task?.priority}
                               </span>
                             </h4>

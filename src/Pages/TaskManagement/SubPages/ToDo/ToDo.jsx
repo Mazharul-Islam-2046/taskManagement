@@ -18,17 +18,14 @@ const ToDo = () => {
         console.log(error);
       });
   };
-
-  // Handle Edit
-  const handleEdit = () => {console.log("edit");};
-
+  
   return (
-    <div className="mt-14">
+    <div className="py-16">
       {toDoData.length ? (
         toDoData.map((task, index) => (
           <div
             key={index}
-            className="py-6 px-8 bg-yellow-400 text-white rounded-lg"
+            className="py-6 px-8 bg-yellow-400 text-white rounded-lg mt-8"
           >
             <h4 className="text-2xl  text-gray-800 mb-3 font-bold text-left">
               Task {task?.title}{" "}
@@ -48,7 +45,7 @@ const ToDo = () => {
                 >
                   <MdDelete />
                 </button>
-                <button onClick={handleEdit} className="text-xl text-[#ff7869] ">
+                <button className="text-xl text-[#ff7869] ">
                   <FaEdit />
                 </button>
               </div>
