@@ -5,6 +5,9 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Providers/AuthProvider";
+import AOS from "aos";
+import "aos/dist/aos.css";
+AOS.init();
 
 const customStyles = {
   content: {
@@ -94,9 +97,9 @@ const TaskManagement = () => {
       </div>
       <div className="flex justify-between items-center px-24">
         {/* Tabs */}
-        <div className="space-x-4">
+        <div data-aos="fade-right" className="space-x-4">
           <NavLink
-          to="/taskmanagement/all"
+            to="/taskmanagement/all"
             className={({ isActive }) =>
               isActive
                 ? "bg-[#2ecc71]  py-1 px-6 hover:bg-[#2ecc71] border-2 border-[#2ecc71] rounded-full overflow-hidden"
@@ -139,6 +142,7 @@ const TaskManagement = () => {
 
         {/* Add Task */}
         <button
+          data-aos="fade-left"
           onClick={openModal}
           className="flex items-center justify-center py-1 px-6 mb-1 rounded-full border-2 border-[#2ecc71] gap-2 hover:bg-[#2ecc71]"
         >

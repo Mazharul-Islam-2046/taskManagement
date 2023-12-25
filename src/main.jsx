@@ -15,6 +15,7 @@ import All from './Pages/TaskManagement/SubPages/All/All.jsx';
 import ToDo from './Pages/TaskManagement/SubPages/ToDo/ToDo.jsx';
 import OnGoing from './Pages/TaskManagement/SubPages/onGoing/OnGoing.jsx';
 import Completed from './Pages/TaskManagement/SubPages/Completed/Completed.jsx';
+import PrivateRoutes from './Providers/PrivateRoutes.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/taskmanagement",
-        element: <TaskManagement/>,
+        element: <PrivateRoutes><TaskManagement/></PrivateRoutes>,
         children: [
           {
             path: "/taskmanagement/all",

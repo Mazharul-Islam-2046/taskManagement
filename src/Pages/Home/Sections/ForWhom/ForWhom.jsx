@@ -3,11 +3,11 @@ import "aos/dist/aos.css";
 AOS.init();
 const ForWhom = () => {
   return (
-    <div id="ourUsers" className="px-24 py-16">
-      <h2 className="text-3xl font-bold mb-20 uppercase">Our Product Users</h2>
+    <div id="ourUsers" className="px-5 md:px-24 py-16">
+      <h2 className="text-xl md:text-3xl font-bold mb-20 uppercase">Our Product Users</h2>
 
       {/* Students Div */}
-      <div className="grid grid-cols-2 gap-x-16 mb-24">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 mb-24">
         {/* Images */}
         <div data-aos="fade-right">
           <img
@@ -40,7 +40,7 @@ const ForWhom = () => {
       </div>
 
       {/* Corporates Div */}
-      <div className="grid grid-cols-2 gap-x-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 overflow-hidden">
         {/* Description */}
         <div
           data-aos="fade-up"
@@ -63,7 +63,7 @@ const ForWhom = () => {
         </div>
 
         {/* Images */}
-        <div data-aos="fade-left">
+        <div data-aos="fade-left" className="order-first md:order-last">
           <img
             src="https://images.pexels.com/photos/8353802/pexels-photo-8353802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt=""

@@ -4,10 +4,10 @@ AOS.init();
 const OurTeam = () => {
     return (
         <div data-aos="fade-up"
-        data-aos-duration="2000" className="px-24 py-16 mb-16">
+        data-aos-duration="2000" className="px-5 md:px-24 py-16 mb-16">
             <h2 className="uppercase text-3xl font-bold mb-20">Meet The Team</h2>
             {/* 1st Row */}
-            <div className="flex justify-center gap-16 mb-14">
+            <div className="flex flex-wrap justify-center gap-16 mb-14">
                 <div className="flex flex-col items-center">
                     <img className="w-24 h-24 rounded-full mb-3 object-cover" src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
                     <h4 className="font-bold text-lg">Elina Nex</h4>
@@ -36,7 +36,7 @@ const OurTeam = () => {
             </div>
 
             {/* 2nd Row */}
-            <div className="flex justify-center gap-16">
+            <div className="flex flex-wrap justify-center gap-16">
                 <div className="flex flex-col items-center">
                     <img className="w-24 h-24 rounded-full mb-3 object-cover" src="https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
                     <h4 className="font-bold text-lg">Nitin Khajotia</h4>
