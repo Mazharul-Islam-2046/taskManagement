@@ -14,7 +14,7 @@ const Hero = () => {
                 <h2 className="text-sm md:text-lg font-bold mb-2 uppercase text-[#ff9185] mt-10">Nesting Your Tasks</h2>
                 <p className="text-xl md:text-4xl font-bold mb-6">Streamlining Collaboration, <br /> Boosting Productivity</p>
                 <p className="leading-relaxed text-sm md:text-base mb-6">Elevate your productivity with TaskSphere — the ultimate task management platform. <br /> Effortlessly streamline collaboration, organize tasks intuitively, <br /> and drive success. Experience the future of task management, where simplicity meets achievement.</p>
-                <button className="py-3 px-6 bg-[#1bb85c] text-white font-semibold rounded-md hover:bg-gray-100 hover:text-gray-600">{user? <Link to="/taskmanagement/all">Dashboard</Link> : <Link to="/login">Let's Explore</Link>}</button>
+                <button className="py-3 px-6 bg-[#1bb85c] text-white font-semibold rounded-md hover:bg-gray-100 hover:text-gray-600">{user? <Link to="/taskmanagement/all">Dashboard</Link> : <Link to="/taskmanagement/all">Let's Explore</Link>}</button>
             </div>
         </div>
     );

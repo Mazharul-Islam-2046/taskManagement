@@ -20,7 +20,7 @@ const ToDo = () => {
   };
   
   return (
-    <div className="py-16">
+    <div className="py-16 mt-5 md:mt-14">
       {toDoData.length ? (
         toDoData.map((task, index) => (
           <div

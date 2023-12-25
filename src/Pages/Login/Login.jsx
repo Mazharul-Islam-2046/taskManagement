@@ -74,7 +74,7 @@ const Login = () => {
           <h2 className="text-3xl font-bold uppercase mb-10">Login</h2>
           <form
             onSubmit={handleSubmit(handleLogin)}
-            className="flex flex-col justify-center relative gap-4 w-[40vw] px-12 py-8 border-4 rounded-md border-[#dbebfd]"
+            className="flex flex-col justify-center relative gap-4 md:w-[40vw] px-12 py-8 border-4 rounded-md border-[#dbebfd]"
           >
             <div className="absolute top-0 left-0 h-full w-full glass"></div>
             <label className="text-left text-xl font-bold text-gray-900 z-10">

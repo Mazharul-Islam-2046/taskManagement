@@ -36,7 +36,7 @@ const Navbar = () => {
           <NavLink to="/login">Login</NavLink>
         )}
       </div>
-      <div>
+      <div className=" md:hidden">
         <button className=" text-xl text-white" onClick={toggleDrawer}>
           <MdMenu />
         </button>

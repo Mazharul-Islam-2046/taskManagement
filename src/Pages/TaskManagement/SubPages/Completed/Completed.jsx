@@ -25,12 +25,12 @@ const Completed = () => {
     console.log("edit");
   }
   return (
-    <div className="mt-14">
+    <div className="mt-5 md:mt-14 py-16">
       {completeData.length ? (
         completeData.map((task, index) => (
           <div
             key={index}
-            className="py-6 px-8 bg-yellow-400 text-white rounded-lg"
+            className="py-6 px-8 bg-yellow-400 text-white rounded-lg mt-8"
           >
             <h4 className="text-2xl  text-gray-800 mb-3 font-bold text-left">
               Task {task?.title}{" "}

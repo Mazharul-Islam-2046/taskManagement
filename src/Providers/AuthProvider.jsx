@@ -75,17 +75,6 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-
-      setLoading(false);
-    });
-    return () => {
-      unSubscribe();
-    };
-  }, [user]);
-
 
 
 
@@ -121,6 +110,23 @@ const AuthProvider = ({ children }) => {
       setCompleteData(data)
       setLoading(false)
   })}, [user, reFetch])
+
+
+
+
+
+  
+
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+
+      setLoading(false);
+    });
+    return () => {
+      unSubscribe();
+    };
+  }, [user]);
 
 
 

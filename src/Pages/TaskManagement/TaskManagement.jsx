@@ -84,20 +84,20 @@ const TaskManagement = () => {
 
   return (
     <div>
-      <div className="py-10 flex justify-between px-24 border-b-4 border-b-[#2ecc71] mb-6">
-        <h2 className="text-5xl font-bold text-left text-[#2ecc71]">
+      <div className="py-10 flex justify-between px-5 md:px-24 border-b-4 border-b-[#2ecc71] mb-6">
+        <h2 className="text-2xl md:text-5xl font-bold text-left text-[#2ecc71]">
           Dashboard
         </h2>
         <button
           onClick={handleLogOut}
-          className="py-2 px-4 rounded-full border-2 border-[#2ecc71] hover:bg-[#2ecc71] font-semibold"
+          className="py-2 px-4 text-sm md:text-base rounded-full border-2 border-[#2ecc71] hover:bg-[#2ecc71] font-semibold"
         >
           Logout
         </button>
       </div>
-      <div className="flex justify-between items-center px-24">
+      <div className="flex flex-wrap justify-between items-center gap-4 px-5 md:px-24">
         {/* Tabs */}
-        <div data-aos="fade-right" className="space-x-4">
+        <div data-aos="fade-right" className="flex flex-wrap gap-4">
           <NavLink
             to="/taskmanagement/all"
             className={({ isActive }) =>
@@ -162,7 +162,7 @@ const TaskManagement = () => {
           </h3>
           <form
             onSubmit={handleSubmit(handleAddTask)}
-            className="flex flex-col w-[40vw] py-5 px-10"
+            className="flex flex-col md:w-[40vw] py-5 px-10"
           >
             <label htmlFor="">Title</label>
             <input
@@ -220,7 +220,7 @@ const TaskManagement = () => {
           </form>
         </Modal>
       </div>
-      <div className="px-24">
+      <div className="px-5 md:px-24">
         <Outlet />
       </div>
     </div>

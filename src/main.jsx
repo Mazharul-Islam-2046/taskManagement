@@ -36,23 +36,23 @@ const router = createBrowserRouter([
       },
       {
         path: "/taskmanagement",
-        element: <PrivateRoutes><TaskManagement/></PrivateRoutes>,
+        element: <TaskManagement/>,
         children: [
           {
             path: "/taskmanagement/all",
-            element: <All/>
+            element: <PrivateRoutes><All/></PrivateRoutes>
           },
           {
             path: "/taskmanagement/todo",
-            element: <ToDo/>,
+            element: <PrivateRoutes><ToDo/></PrivateRoutes>,
           },
           {
             path: "/taskmanagement/ongoing",
-            element: <OnGoing/>
+            element: <PrivateRoutes><OnGoing/></PrivateRoutes>
           },
           {
             path: "/taskmanagement/Complete",
-            element: <Completed/>
+            element: <PrivateRoutes><Completed/></PrivateRoutes>
           }
         ]
       }

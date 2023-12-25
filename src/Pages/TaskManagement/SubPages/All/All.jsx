@@ -338,7 +338,7 @@ const All = () => {
         <title>Dashboard || All Tasks</title>
       </Helmet>
       <DragDropContext onDragEnd={handleDrag}>
-        <div className="py-12 grid grid-cols-3 gap-16">
+        <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-16">
           {/* To Do Box */}
           <Droppable droppableId="todo" type="status">
             {(provided) => (
