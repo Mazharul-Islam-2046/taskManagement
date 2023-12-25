@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import Modal from "react-modal";
 import { useContext, useState } from "react";
@@ -21,7 +21,8 @@ const customStyles = {
 
 const TaskManagement = () => {
 
-  const {reFetch, setReFetch} = useContext(AuthContext)
+  const {reFetch, setReFetch, logOut} = useContext(AuthContext)
+  const navigate = useNavigate();
 
 
 
@@ -71,12 +72,23 @@ const TaskManagement = () => {
       });
   };
 
+
+
+  const handleLogOut = () => {
+    logOut()
+    navigate("/")
+  }
+
+
+
+
   return (
     <div>
-      <div className="py-10 px-24 border-b-4 border-b-[#2ecc71] mb-6">
+      <div className="py-10 flex justify-between px-24 border-b-4 border-b-[#2ecc71] mb-6">
         <h2 className="text-5xl font-bold text-left text-[#2ecc71]">
           Dashboard
         </h2>
+        <button onClick={handleLogOut} className="py-2 px-4 rounded-full border-2 border-[#2ecc71] hover:bg-[#2ecc71] font-semibold">Logout</button>
       </div>
       <div className="flex justify-between items-center px-24">
         {/* Tabs */}
