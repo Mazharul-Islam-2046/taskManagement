@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { AuthContext } from "../../../../Providers/AuthProvider";
 import { MdDelete } from "react-icons/md";
+import { Helmet } from "react-helmet";
 
 const All = () => {
   const {
@@ -12,9 +13,8 @@ const All = () => {
     setInProgressData,
     setTodoData,
     reFetch,
-    setReFetch
+    setReFetch,
   } = useContext(AuthContext);
-
 
   const handleDrag = (results) => {
     const { source, destination } = results;
@@ -108,19 +108,22 @@ const All = () => {
       const toDoTaskDestinatonIndex = destination?.index;
       const toDoTaskDestinationID = destination?.droppableId;
       const reorderedTodo = [...toDoData];
-      
+
       if (toDoTaskDestinationID === "inprogress") {
         const status = "inprogress";
         const reorderedInprogress = [...inProgressData];
         const [kickOutTodoTask] = reorderedTodo.splice(toDoTaskSourceIndex, 1);
         reorderedInprogress.splice(toDoTaskDestinatonIndex, 0, kickOutTodoTask);
-        fetch(`http://localhost:5000/tasks/${kickOutTodoTask?._id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status }),
-        })
+        fetch(
+          `https://task-management-server-topaz.vercel.app/tasks/${kickOutTodoTask?._id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status }),
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
@@ -136,13 +139,16 @@ const All = () => {
       const [kickOutTodoTask] = reorderedTodo.splice(toDoTaskSourceIndex, 1);
       const status = "complete";
       reorderedComplete.splice(toDoTaskDestinatonIndex, 0, kickOutTodoTask);
-      fetch(`http://localhost:5000/tasks/${kickOutTodoTask?._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status }),
-      })
+      fetch(
+        `https://task-management-server-topaz.vercel.app/tasks/${kickOutTodoTask?._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -164,7 +170,7 @@ const All = () => {
       const inProgressTaskDestinatonIndex = destination?.index;
       const inProgressTaskDestinationID = destination?.droppableId;
       const reorderedInProgressTasks = [...inProgressData];
-      
+
       if (inProgressTaskDestinationID === "todo") {
         const reorderedToDoTasks = [...toDoData];
         const status = "todo";
@@ -177,13 +183,16 @@ const All = () => {
           0,
           kickOutInProgressTask
         );
-        fetch(`http://localhost:5000/tasks/${kickOutInProgressTask?._id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status }),
-        })
+        fetch(
+          `https://task-management-server-topaz.vercel.app/tasks/${kickOutInProgressTask?._id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status }),
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
@@ -206,13 +215,16 @@ const All = () => {
         0,
         kickOutInProgressTask
       );
-      fetch(`http://localhost:5000/tasks/${kickOutInProgressTask?._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status }),
-      })
+      fetch(
+        `https://task-management-server-topaz.vercel.app/tasks/${kickOutInProgressTask?._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -235,7 +247,7 @@ const All = () => {
       const completeTaskDestinatonIndex = destination?.index;
       const completeTaskDestinationID = destination?.droppableId;
       const reorderedComplete = [...completeData];
-      
+
       if (completeTaskDestinationID === "inprogress") {
         const reorderedInprogress = [...inProgressData];
 
@@ -250,13 +262,16 @@ const All = () => {
           kickOutCompleteTask
         );
 
-        fetch(`http://localhost:5000/tasks/${kickOutCompleteTask?._id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status }),
-        })
+        fetch(
+          `https://task-management-server-topaz.vercel.app/tasks/${kickOutCompleteTask?._id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status }),
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             console.log(data);
@@ -270,21 +285,23 @@ const All = () => {
         return;
       }
       const reorderedTodo = [...toDoData];
-      const status = "todo"
+      const status = "todo";
       const [kickOutCompleteTask] = reorderedComplete.splice(
         completeTaskSourceIndex,
         1
       );
       reorderedTodo.splice(completeTaskDestinatonIndex, 0, kickOutCompleteTask);
 
-
-      fetch(`http://localhost:5000/tasks/${kickOutCompleteTask?._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status }),
-      })
+      fetch(
+        `https://task-management-server-topaz.vercel.app/tasks/${kickOutCompleteTask?._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status }),
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -298,30 +315,28 @@ const All = () => {
     }
   };
 
-
-
-  
-
-
   // Handle Delete
 
   const handleDelete = (id) => {
-      console.log(id);
-      fetch(`http://localhost:5000/deleteTask/${id}`,
-      {method: "DELETE"}
-      ).then((res) => res.json())
+    console.log(id);
+    fetch(`https://task-management-server-topaz.vercel.app/deleteTask/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
       .then((data) => {
-        data && setReFetch(!reFetch)
-      }).catch((error) => {
-        console.log(error);
+        data && setReFetch(!reFetch);
       })
-  }
-
-
-
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Dashboard || All Tasks</title>
+      </Helmet>
       <DragDropContext onDragEnd={handleDrag}>
         <div className="py-12 grid grid-cols-3 gap-16">
           {/* To Do Box */}
@@ -352,7 +367,10 @@ const All = () => {
                             className="py-4 px-4 bg-yellow-400 text-white rounded-md"
                           >
                             <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
-                              Task {task?.title} <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">{task?.priority}</span>
+                              Task {task?.title}{" "}
+                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">
+                                {task?.priority}
+                              </span>
                             </h4>
                             <p className="text-left text-sm mb-4">
                               {task?.description.slice(0, 80)}...
@@ -361,7 +379,10 @@ const All = () => {
                               <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
                                 <h4>ToDo</h4>
                               </div>
-                              <button onClick={(() => handleDelete(task?._id))} className="text-xl text-[#ff7869]">
+                              <button
+                                onClick={() => handleDelete(task?._id)}
+                                className="text-xl text-[#ff7869]"
+                              >
                                 <MdDelete />
                               </button>
                             </div>
@@ -391,7 +412,7 @@ const All = () => {
               >
                 {/* Title */}
                 <h3 className="text-2xl text-left uppercase font-bold">
-                  In Progress
+                  On Going
                 </h3>
                 {inProgressData.length ? (
                   <div className="mt-6 space-y-4">
@@ -409,16 +430,22 @@ const All = () => {
                             className="py-4 px-4 bg-yellow-400 text-white rounded-md"
                           >
                             <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
-                              Task {task?.title} <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">{task?.priority}</span>
+                              Task {task?.title}{" "}
+                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">
+                                {task?.priority}
+                              </span>
                             </h4>
                             <p className="text-left text-sm mb-4">
                               {task?.description.slice(0, 80)}...
                             </p>
                             <div className="flex justify-between pr-2">
                               <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
-                                <h4>In Progress</h4>
+                                <h4>On Going</h4>
                               </div>
-                              <button onClick={(() => handleDelete(task?._id))} className="text-xl text-[#ff7869]">
+                              <button
+                                onClick={() => handleDelete(task?._id)}
+                                className="text-xl text-[#ff7869]"
+                              >
                                 <MdDelete />
                               </button>
                             </div>
@@ -466,7 +493,10 @@ const All = () => {
                             className="py-4 px-4 bg-yellow-400 text-white rounded-md"
                           >
                             <h4 className="text-lg  text-gray-800 mb-1 font-bold text-left">
-                              Task {task?.title} <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">{task?.priority}</span>
+                              Task {task?.title}{" "}
+                              <span className="text-xs rounded-full py-[2px] px-2 border-2 border-gray-800">
+                                {task?.priority}
+                              </span>
                             </h4>
                             <p className="text-left text-sm mb-4">
                               {task?.description.slice(0, 80)}...
@@ -475,7 +505,10 @@ const All = () => {
                               <div className="border-2 border-[#3498db] py-1 px-4 rounded-full font-bold text-sm text-gray-900">
                                 <h4>Complete</h4>
                               </div>
-                              <button onClick={(()=> handleDelete(task?._id))} className="text-xl text-[#ff7869]">
+                              <button
+                                onClick={() => handleDelete(task?._id)}
+                                className="text-xl text-[#ff7869]"
+                              >
                                 <MdDelete />
                               </button>
                             </div>

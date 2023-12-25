@@ -12,6 +12,9 @@ import Home from './Pages/Home/Home.jsx';
 import Register from './Pages/Register/Register.jsx';
 import TaskManagement from './Pages/TaskManagement/TaskManagement.jsx';
 import All from './Pages/TaskManagement/SubPages/All/All.jsx';
+import ToDo from './Pages/TaskManagement/SubPages/ToDo/ToDo.jsx';
+import OnGoing from './Pages/TaskManagement/SubPages/onGoing/OnGoing.jsx';
+import Completed from './Pages/TaskManagement/SubPages/Completed/Completed.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,8 +38,20 @@ const router = createBrowserRouter([
         element: <TaskManagement/>,
         children: [
           {
-            path: "/taskmanagement",
+            path: "/taskmanagement/all",
             element: <All/>
+          },
+          {
+            path: "/taskmanagement/todo",
+            element: <ToDo/>,
+          },
+          {
+            path: "/taskmanagement/ongoing",
+            element: <OnGoing/>
+          },
+          {
+            path: "/taskmanagement/Complete",
+            element: <Completed/>
           }
         ]
       }

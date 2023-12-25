@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   const {
@@ -40,6 +41,10 @@ const Login = () => {
   };
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Task Nest || Login</title>
+      </Helmet>
       <Navbar />
       <div className="py-32 flex justify-center items-center bg-[url('https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover">
         <div>
@@ -48,9 +53,7 @@ const Login = () => {
             onSubmit={handleSubmit(handleLogin)}
             className="flex flex-col justify-center relative gap-4 w-[40vw] px-12 py-8 border-4 rounded-md border-[#dbebfd]"
           >
-            <div className="absolute top-0 left-0 h-full w-full glass">
-
-            </div>
+            <div className="absolute top-0 left-0 h-full w-full glass"></div>
             <label className="text-left text-xl font-bold text-gray-900 z-10">
               Email:
             </label>
@@ -98,7 +101,7 @@ const Login = () => {
             )}
 
             <p className="text-gray-800 z-10 font-bold">
-              Do not have an account? 
+              Do not have an account?
               <span className="underline hover:text-[#2ecc71]">
                 <Link to="/register">Register</Link>
               </span>

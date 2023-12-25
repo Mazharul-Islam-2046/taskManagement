@@ -20,11 +20,8 @@ const customStyles = {
 //   Modal.setAppElement('#yourAppElement');
 
 const TaskManagement = () => {
-
-  const {reFetch, setReFetch, logOut} = useContext(AuthContext)
+  const { reFetch, setReFetch, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
-
-
 
   const {
     register,
@@ -35,7 +32,7 @@ const TaskManagement = () => {
 
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   function openModal() {
     setIsOpen(true);
@@ -59,28 +56,28 @@ const TaskManagement = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, description, priority, 
-        user_email: user.email, status: "todo" }),
+      body: JSON.stringify({
+        title,
+        description,
+        priority,
+        user_email: user.email,
+        status: "todo",
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
-        setReFetch(!reFetch)
+        setReFetch(!reFetch);
         // console.log(reFetch);
         data && Swal.fire("Task Added Successfully");
         closeModal();
-        reset()
+        reset();
       });
   };
 
-
-
   const handleLogOut = () => {
-    logOut()
-    navigate("/")
-  }
-
-
-
+    logOut();
+    navigate("/");
+  };
 
   return (
     <div>
@@ -88,12 +85,18 @@ const TaskManagement = () => {
         <h2 className="text-5xl font-bold text-left text-[#2ecc71]">
           Dashboard
         </h2>
-        <button onClick={handleLogOut} className="py-2 px-4 rounded-full border-2 border-[#2ecc71] hover:bg-[#2ecc71] font-semibold">Logout</button>
+        <button
+          onClick={handleLogOut}
+          className="py-2 px-4 rounded-full border-2 border-[#2ecc71] hover:bg-[#2ecc71] font-semibold"
+        >
+          Logout
+        </button>
       </div>
       <div className="flex justify-between items-center px-24">
         {/* Tabs */}
         <div className="space-x-4">
           <NavLink
+          to="/taskmanagement/all"
             className={({ isActive }) =>
               isActive
                 ? "bg-[#2ecc71]  py-1 px-6 hover:bg-[#2ecc71] border-2 border-[#2ecc71] rounded-full overflow-hidden"
@@ -103,7 +106,7 @@ const TaskManagement = () => {
             All
           </NavLink>
           <NavLink
-            to="taskmanagement/todo"
+            to="todo"
             className={({ isActive }) =>
               isActive
                 ? "bg-[#2ecc71]  py-1 px-6 hover:bg-[#2ecc71] border-2 border-[#2ecc71] rounded-full overflow-hidden"
@@ -113,24 +116,24 @@ const TaskManagement = () => {
             To Do
           </NavLink>
           <NavLink
-            to="taskmanagement/inProgress"
+            to="/taskmanagement/ongoing"
             className={({ isActive }) =>
               isActive
                 ? "bg-[#2ecc71]  py-1 px-6 hover:bg-[#2ecc71] border-2 border-[#2ecc71] rounded-full overflow-hidden"
                 : "bg-transparent  py-1 px-6 hover:bg-[#2ecc71] border-2 border-[#2ecc71] rounded-full overflow-hidden"
             }
           >
-            In Progress
+            On Going
           </NavLink>
           <NavLink
-            to="taskmanagement/Complete"
+            to="/taskmanagement/Complete"
             className={({ isActive }) =>
               isActive
                 ? "bg-[#2ecc71]  py-1 px-6 hover:bg-[#2ecc71] border-2 border-[#2ecc71] rounded-full overflow-hidden"
                 : "bg-transparent  py-1 px-6 hover:bg-[#2ecc71] border-2 border-[#2ecc71] rounded-full overflow-hidden"
             }
           >
-            Complete
+            Completed
           </NavLink>
         </div>
 
@@ -186,16 +189,20 @@ const TaskManagement = () => {
               <p className="text-red-600">Description is required</p>
             )}
 
-            <label htmlFor="">Priority(High, Medium, Low)</label>
-            <input
+            <label htmlFor="">Priority(High, Moderate, Low)</label>
+            <select
               {...register("priority", {
                 required: true,
               })}
               className="mb-8 bg-transparent border-2 border-[#2ecc71]"
-              type="text"
+              type=""
               name="priority"
               id=""
-            />
+            >
+              <option value="High">High</option>
+              <option value="Moderate">Moderate</option>
+              <option value="Low">Low</option>
+            </select>
 
             {errors.email?.type === "required" && (
               <p className="text-red-600">Priority is required</p>

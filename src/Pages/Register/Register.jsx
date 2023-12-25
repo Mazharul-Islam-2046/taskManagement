@@ -3,16 +3,16 @@ import Footer from "../SharedComponents/Footer/Footer";
 import Navbar from "../SharedComponents/Navbar/Navbar";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { useContext } from "react";
-import './register.css'
+import "./register.css";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/taskmanagement";
-
 
   const {
     register,
@@ -21,37 +21,34 @@ const Register = () => {
     reset,
   } = useForm();
 
-
   const handleRegister = (data) => {
     const password = data.password;
     // const name = data.name;
     const email = data.email;
 
-    createUser(email, password)
-            .then((result) => {
-                if(result) {
-                    reset()
-                    Swal.fire({
-                        title: "User Registered Successful.",
-                        showClass: {
-                          popup: "animate__animated animate__fadeInDown",
-                        },
-                        hideClass: {
-                          popup: "animate__animated animate__fadeOutUp",
-                        },
-                      });
-                      navigate(from, { replace: true });
-                }
-  })
-}
-
-
-
-
-
+    createUser(email, password).then((result) => {
+      if (result) {
+        reset();
+        Swal.fire({
+          title: "User Registered Successful.",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
+        });
+        navigate(from, { replace: true });
+      }
+    });
+  };
 
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Task Nest || Register</title>
+      </Helmet>
       <Navbar />
       <div className="py-32 flex justify-center items-center bg-[url('https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover">
         <div>
@@ -60,9 +57,7 @@ const Register = () => {
             onSubmit={handleSubmit(handleRegister)}
             className="flex flex-col justify-center relative gap-4 w-[40vw] px-12 py-8 border-4 rounded-md border-[#dbebfd]"
           >
-            <div className="absolute top-0 left-0 h-full w-full glass">
-
-            </div>
+            <div className="absolute top-0 left-0 h-full w-full glass"></div>
             <label className="text-left text-xl font-bold text-gray-900 z-10">
               Email:
             </label>
@@ -109,7 +104,7 @@ const Register = () => {
             )}
 
             <p className="text-gray-800 z-10 font-bold">
-              Already have an account? 
+              Already have an account?
               <span className="underline hover:text-[#2ecc71]">
                 <Link to="/login">Login</Link>
               </span>
